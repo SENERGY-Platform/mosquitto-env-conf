@@ -21,7 +21,7 @@ set -e
 
 CONFIG=/mosquitto/config/mosquitto.conf
 
-touch $CONFIG
+> $CONFIG
 
 for env_var in $(env); do
     if [ -n "$(echo $env_var | grep -E '^EM_')" ]; then
