@@ -28,7 +28,7 @@ for env_var in $(env); do
         name=$(echo "$env_var" | sed -r "s/EM_([^=]*)=.*/\1/g" | tr '[:upper:]' '[:lower:]')
         env_var_name=$(echo "$env_var" | sed -r "s/([^=]*)=.*/\1/g")
         value=$(printenv $env_var_name)
-        echo "$name=$value" >> $CONFIG
+        echo "$name $value" >> $CONFIG
     fi
 done
 
