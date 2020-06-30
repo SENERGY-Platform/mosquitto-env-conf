@@ -24,7 +24,12 @@ CONFIG=/mosquitto/config/mosquitto.conf
 > $CONFIG
 
 for env_var in $(env); do
-    if [ -n "$(echo $env_var | grep -E '^EM_')" ]; then
+    if [ -n "$(echo $env_var | grep -E '^EM_[0-9]+_')" ]; then
+        name=$(echo "$env_var" | sed -r "s/EM_[0-9]+_([^=]*)=.*/\1/g" | tr '[:upper:]' '[:lower:]')
+        env_var_name=$(echo "$env_var" | sed -r "s/([^=]*)=.*/\1/g")
+        value=$(printenv $env_var_name)
+        echo "$name $value" >> $CONFIG
+    elif [ -n "$(echo $env_var | grep -E '^EM_')" ]; then
         name=$(echo "$env_var" | sed -r "s/EM_([^=]*)=.*/\1/g" | tr '[:upper:]' '[:lower:]')
         env_var_name=$(echo "$env_var" | sed -r "s/([^=]*)=.*/\1/g")
         value=$(printenv $env_var_name)
